@@ -59,7 +59,7 @@ Just add it to your asset middleware stack. Let's say you want to use
 all the optimizations that come with Optimus:
 
 ```clj
-(ns kodemaker-no.web
+(ns example
   (:require [optimus.optimizations :as optimizations]
             [optimus-img-transform.core :refer [transform-images]]))
 
