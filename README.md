@@ -1,6 +1,6 @@
-# optimus-img-transform
+# optimus-img-transform [![Build Status](https://secure.travis-ci.org/magnars/optimus-img-transform.png)](http://travis-ci.org/magnars/optimus-img-transform)
 
-An Optimus image transformation middleware.
+An [Optimus](http://github.com/magnars/optimus) image transformation middleware.
 
 ## Install
 
