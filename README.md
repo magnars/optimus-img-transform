@@ -6,6 +6,7 @@ An [Optimus](http://github.com/magnars/optimus) image transformation middleware.
 
 - Add `[optimus-img-transform "0.1.0"]` to `:dependencies` in your `project.clj`.
 - It requires Optimus version minimum `0.14.1`.
+- It requires Java 7
 
 ## Usage
 
