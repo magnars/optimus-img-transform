@@ -54,6 +54,7 @@
       (let [path (transform-image (:path asset) (:resource asset) (:tmp-dir options) (:quality options) options)]
         (-> asset
             (assoc :resource (io/as-url (str "file:" path)))
+            (assoc ::transformed true)
             (cond-> (:prefix options) (update-in [:path] #(add-filename-prefix % (:prefix options)))))))))
 
 (defn- enforce-required-options [options required fn-name]
@@ -70,7 +71,9 @@
 (defn transform-images [assets options]
   (enforce-required-options options required-options "transform-images")
   (let [options (merge default-options options)
-        transformed (map #(transform-asset % options) assets)]
+        transformed (->> assets
+                         (remove ::transformed)
+                         (map #(transform-asset % options)))]
     (if (:prefix options)
       (concat assets transformed)
-      transformed)))
+      (concat (filter ::transformed assets) transformed))))

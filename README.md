@@ -74,6 +74,16 @@ all the optimizations that come with Optimus:
 
 And plug that optimization function into `optimus.core/wrap`.
 
+## Can I create multiple versions of the same image?
+
+Yes, just use `:prefix` to differentiate them.
+
+One word of warning tho: `transform-images` won't touch images that it
+has already transformed, to avoid stacking jpg-compressions on top of
+each other. So if you want to both create multiple versions of the
+same image *and* transform the image in-place, do the in-place
+transformation last.
+
 ## License
 
 Copyright © 2014 Magnar Sveen

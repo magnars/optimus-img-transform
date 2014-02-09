@@ -22,10 +22,10 @@
                     {:scale 2
                      :progressive false}) => (str tmp-dir "/optimus-0.3-x2-b-" timestamp ".jpg")
 
-   (transform-image "/optimus.jpg" (io/resource "optimus.jpg") tmp-dir 0.4
-                    {:width 200
-                     :height 100
-                     :progressive true}) => (str tmp-dir "/optimus-0.4-w200-h100-p-" timestamp ".jpg")))
+                     (transform-image "/optimus.jpg" (io/resource "optimus.jpg") tmp-dir 0.4
+                                      {:width 200
+                                       :height 100
+                                       :progressive true}) => (str tmp-dir "/optimus-0.4-w200-h100-p-" timestamp ".jpg")))
 
 (fact
  "It makes no sense giving both :scale and either :width or :height."
@@ -109,7 +109,7 @@
                       :regexp #"/photos/.+\.jpg$"
                       :quality 0.2})
    => [{:path "/images/optimus.jpg" :resource (io/resource "optimus.jpg")}
-       {:path "/photos/optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/photos/optimus-0.2-" timestamp ".jpg"))}]))
+       {:path "/photos/optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/photos/optimus-0.2-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}]))
 
 (fact
  "You can specify a prefix for the transformed file paths."
@@ -122,7 +122,20 @@
                       :width 290
                       :prefix "w290-"})
    => [{:path "/optimus.jpg" :resource (io/resource "optimus.jpg")}
-       {:path "/w290-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w290-" timestamp ".jpg"))}]))
+       {:path "/w290-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w290-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}]))
+
+(fact
+ "You can do multiple operations on the same images with different
+  prefixes. It won't touch images that it has already transformed."
+
+ (with-tmp-dir
+   (-> [{:path "/optimus.jpg" :resource (io/resource "optimus.jpg")}]
+       (transform-images {:tmp-dir tmp-dir :regexp #"/.+\.jpg$" :quality 0.2 :width 290 :prefix "w290-"})
+       (transform-images {:tmp-dir tmp-dir :regexp #"/.+\.jpg$" :quality 0.2 :width 580 :prefix "w580-"})
+       (transform-images {:tmp-dir tmp-dir :regexp #"/.+\.jpg$" :quality 0.2}))
+   => [{:path "/w290-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w290-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}
+       {:path "/w580-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w580-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}
+       {:path "/optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}]))
 
 (fact
  "There are some options that are required."
