@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [fivetonine/collage "0.2.0"]
                  [optimus "0.14.1"]]
+  :jvm-opts ["-Djava.awt.headless=true"]
   :profiles {:dev {:dependencies [[midje "1.6.0"]
                                   [test-with-files "0.1.0"]]
                    :plugins [[lein-midje "3.1.3"]]
