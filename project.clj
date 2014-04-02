@@ -1,4 +1,4 @@
-(defproject optimus-img-transform "0.1.1"
+(defproject optimus-img-transform "0.2.0"
   :description "An Optimus image transformation middleware."
   :url "http://github.com/magnars/optimus-img-transform"
   :license {:name "Eclipse Public License"
