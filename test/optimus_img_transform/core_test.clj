@@ -100,6 +100,15 @@
      [(.getWidth img) (.getHeight img)] => [85 100])))
 
 (fact
+ "Cropping works"
+
+ (with-tmp-dir
+   (transform-image "/optimus.jpg" (io/resource "optimus.jpg") tmp-dir 0.2 {:crop {:size [100 50]
+                                                                                   :offset [30 20]}})
+   (let [img (util/load-image (str tmp-dir "/optimus-0.2-c30x20x100x50-" timestamp ".jpg"))]
+     [(.getWidth img) (.getHeight img)] => [100 50])))
+
+(fact
  "It transforms assets by regexp."
 
  (with-tmp-dir

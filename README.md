@@ -32,6 +32,7 @@ You can also specify:
 - `:scale` which will resize proportional to the scale.
 - `:tmp-dir` customizes the temporary location for cached images.
 - `:prefix` to create new images on a prefixed path, instead of replacing.
+- `:crop` to crop the image at `{:offset [x y], :size [w h]}`
 
 The only mandatory params are `:regexp` and `:quality`.
 

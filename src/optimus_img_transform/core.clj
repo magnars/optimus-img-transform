@@ -14,6 +14,7 @@
          (if-let [scale (:scale options)] (str "-x" scale) "")
          (if-let [width (:width options)] (str "-w" width) "")
          (if-let [height (:height options)] (str "-h" height) "")
+         (if-let [crop (:crop options)] (str "-c" (-> crop :offset first) "x" (-> crop :offset second) "x" (-> crop :size first) "x" (-> crop :size second)))
          (case (:progressive options)
            true "-p" ;; progressive
            false "-b" ;; baseline
@@ -28,6 +29,10 @@
   (create-folders tmp-path)
   (-> (util/load-image image)
       (cond->
+       (:crop options) (collage/crop (-> options :crop :offset first)
+                                     (-> options :crop :offset second)
+                                     (-> options :crop :size first)
+                                     (-> options :crop :size second))
        (:scale options) (collage/scale (:scale options))
        (or (:width options) (:height options)) (collage/resize :width (:width options) :height (:height options)))
       (util/save tmp-path
