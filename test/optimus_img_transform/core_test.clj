@@ -109,6 +109,15 @@
      [(.getWidth img) (.getHeight img)] => [100 50])))
 
 (fact
+  "Square cropping works too"
+
+  (with-tmp-dir
+    (transform-image "/optimus.jpg" (io/resource "optimus.jpg") tmp-dir 0.2 {:crop :square})
+    (let [img (util/load-image (str tmp-dir "/optimus-0.2-csquare-" timestamp ".jpg"))]
+      [(.getWidth img) (.getHeight img)] => [343 343])
+    ))
+
+(fact
  "It transforms assets by regexp."
 
  (with-tmp-dir

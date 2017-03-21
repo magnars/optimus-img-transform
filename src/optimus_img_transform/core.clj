@@ -14,7 +14,10 @@
          (if-let [scale (:scale options)] (str "-x" scale) "")
          (if-let [width (:width options)] (str "-w" width) "")
          (if-let [height (:height options)] (str "-h" height) "")
-         (if-let [crop (:crop options)] (str "-c" (-> crop :offset first) "x" (-> crop :offset second) "x" (-> crop :size first) "x" (-> crop :size second)))
+         (if-let [crop (:crop options)]
+           (if (= crop :square)
+            (str "-csquare")
+            (str "-c" (-> crop :offset first) "x" (-> crop :offset second) "x" (-> crop :size first) "x" (-> crop :size second))))
          (case (:progressive options)
            true "-p" ;; progressive
            false "-b" ;; baseline
@@ -25,14 +28,23 @@
 (defn- create-folders [path]
   (.mkdirs (.getParentFile (io/file path))))
 
+(defn- crop-image [image options]
+  (if (= options :square)
+    (let [w (.getWidth image)
+          h (.getHeight image)
+          min-dimension (min w h)
+          cropped-offset (- (/ (max w h) 2) (/ min-dimension 2))]
+      (recur image {:offset (if (> w h) [cropped-offset 0] [0 cropped-offset]) :size [min-dimension min-dimension]}))
+    (collage/crop image (-> options :offset first)
+                        (-> options :offset second)
+                        (-> options :size first)
+                        (-> options :size second))))
+
 (defn- transform-image-1 [image tmp-path quality options]
   (create-folders tmp-path)
   (-> (util/load-image image)
       (cond->
-       (:crop options) (collage/crop (-> options :crop :offset first)
-                                     (-> options :crop :offset second)
-                                     (-> options :crop :size first)
-                                     (-> options :crop :size second))
+       (:crop options) (crop-image (:crop options))
        (:scale options) (collage/scale (:scale options))
        (or (:width options) (:height options)) (collage/resize :width (:width options) :height (:height options)))
       (util/save tmp-path
