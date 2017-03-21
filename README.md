@@ -4,7 +4,7 @@ An [Optimus](http://github.com/magnars/optimus) image transformation middleware.
 
 ## Install
 
-- Add `[optimus-img-transform "0.2.0"]` to `:dependencies` in your `project.clj`.
+- Add `[optimus-img-transform "0.3.0"]` to `:dependencies` in your `project.clj`.
 - It requires Optimus version minimum `0.14.1`.
 - It requires Java 7
 
@@ -33,6 +33,7 @@ You can also specify:
 - `:tmp-dir` customizes the temporary location for cached images.
 - `:prefix` to create new images on a prefixed path, instead of replacing.
 - `:crop` to crop the image at `{:offset [x y], :size [w h]}`
+- `:crop` can also be set to `:square`
 
 The only mandatory params are `:regexp` and `:quality`.
 
@@ -85,9 +86,34 @@ each other. So if you want to both create multiple versions of the
 same image *and* transform the image in-place, do the in-place
 transformation last.
 
+## Change log
+
+#### From 0.2 to 0.3
+
+- Add option `:square` to `:crop` option (Joel Sánchez López)
+
+## Contribute
+
+Yes, please do. And add tests for your feature or fix, or I'll
+certainly break it later.
+
+#### Running the tests
+
+`lein midje` will run all tests.
+
+`lein midje namespace.*` will run only tests beginning with "namespace.".
+
+`lein midje :autotest` will run all the tests indefinitely. It sets up a
+watcher on the code files. If they change, only the relevant tests will be
+run again.
+
+## Contributors
+
+- [Joel Sánchez López](https://github.com/JoelSanchez) added option `:square` to `:crop` option.
+
 ## License
 
-Copyright © 2014 Magnar Sveen
+Copyright © 2014-2017 Magnar Sveen
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
