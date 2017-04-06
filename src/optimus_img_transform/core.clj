@@ -91,6 +91,6 @@
         transformed (->> assets
                          (remove ::transformed)
                          (map #(transform-asset % options)))]
-    (if (:prefix options)
-      (concat assets transformed)
-      (concat (filter ::transformed assets) transformed))))
+        (if (:prefix options)
+          (concat assets (filter ::transformed transformed))
+          (concat (filter ::transformed assets) transformed))))

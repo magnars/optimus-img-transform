@@ -143,6 +143,21 @@
        {:path "/w290-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w290-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}]))
 
 (fact
+  "It does not duplicate other assets when using a prefix"
+  (with-tmp-dir
+    (transform-images [{:path "/optimus.jpg" :resource (io/resource "optimus.jpg")}
+                       {:test :asset
+                        :path "bogus"}]
+                      {:tmp-dir tmp-dir
+                       :regexp #"/.+\.jpg$"
+                       :quality 0.2
+                       :width 290
+                       :prefix "some-prefix-"})
+    => [{:path "/optimus.jpg" :resource (io/resource "optimus.jpg")}
+        {:path "bogus" :test :asset}
+        {:path "/some-prefix-optimus.jpg" :resource (io/as-url (str "file:" tmp-dir "/optimus-0.2-w290-" timestamp ".jpg")) :optimus-img-transform.core/transformed true}]))
+
+(fact
  "You can do multiple operations on the same images with different
   prefixes. It won't touch images that it has already transformed."
 
