@@ -4,7 +4,7 @@ An [Optimus](http://github.com/magnars/optimus) image transformation middleware.
 
 ## Install
 
-- Add `[optimus-img-transform "0.3.0"]` to `:dependencies` in your `project.clj`.
+- Add `[optimus-img-transform "0.3.1"]` to `:dependencies` in your `project.clj`.
 - It requires Optimus version minimum `0.14.1`.
 - It requires Java 7
 
@@ -88,6 +88,10 @@ transformation last.
 
 ## Change log
 
+#### From 0.3 to 0.3.1
+
+- Fix asset duplication when prefix option is used. (Joel Sánchez López)
+
 #### From 0.2 to 0.3
 
 - Add option `:square` to `:crop` option (Joel Sánchez López)
@@ -109,7 +113,7 @@ run again.
 
 ## Contributors
 
-- [Joel Sánchez López](https://github.com/JoelSanchez) added option `:square` to `:crop` option.
+- [Joel Sánchez López](https://github.com/JoelSanchez) added option `:square` to `:crop` option (and fixed a bug).
 
 ## License
 
